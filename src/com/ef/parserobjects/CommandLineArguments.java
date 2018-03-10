@@ -2,6 +2,8 @@ package com.ef.parserobjects;
 
 import com.ef.exception.ParsingException;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,5 +62,19 @@ public class CommandLineArguments {
      */
     public String getAccessLog() {
         return argsByName.get(ACCESS_LOG);
+    }
+
+    public LocalDateTime getStartDate() {
+        String startDate = argsByName.get(START_DATE);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd.HH:mm:ss");
+        return LocalDateTime.parse(startDate, formatter);
+    }
+
+    public String getDuration() {
+        return argsByName.get(DURATION);
+    }
+
+    public int getThreshold() {
+        return Integer.parseInt(argsByName.get(THRESHOLD));
     }
 }

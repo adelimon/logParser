@@ -1,14 +1,17 @@
 package com.ef.parserobjects;
 
 import com.ef.database.ConnectionPool;
-import com.sun.corba.se.impl.orb.PrefixParserData;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * A collection of lines in a log file that is searchable, sortable, and generally made to be flexible.
@@ -19,8 +22,12 @@ public class LogFileLineCollection {
 
     private Collection<LogFileLine> storage;
 
-    public LogFileLineCollection() {
+    public LogFileLineCollection(String fileName) throws IOException {
         storage = new ArrayList<LogFileLine>();
+        List<String> allLines = Files.readAllLines(Paths.get(fileName));
+        for (String fileLine : allLines) {
+            this.add(new LogFileLine(fileLine));
+        }
     }
 
     public void add(LogFileLine line) {
@@ -57,7 +64,6 @@ public class LogFileLineCollection {
         }
         int[] results = insertStatement.executeBatch();
         databaseConnection.commit();
-        databaseConnection.close();
         return count;
     }
 }
