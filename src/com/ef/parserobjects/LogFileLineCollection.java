@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author adelimon
  */
-public class LogFileLineCollection {
+public class LogFileLineCollection implements PersistableCollection {
 
     private Collection<LogFileLine> storage;
 
@@ -48,7 +48,7 @@ public class LogFileLineCollection {
         Connection databaseConnection = ConnectionPool.getConnection();
         // truncate the raw log in prepration for reloading it.  You could also create a new log table here or set
         // a flag in another table. This was just the simplest way to solve the problem.
-        databaseConnection.prepareStatement("truncate table raw_log").executeUpdate();
+        ConnectionPool.cleanTable("raw_log");
         databaseConnection.setAutoCommit(false);
         String sql = "insert into raw_log (timestamp, ip_address, request_method, response_code, user_agent) "+
                 "values (?, ?, ?, ?, ?)";

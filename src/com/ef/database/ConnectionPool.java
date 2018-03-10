@@ -28,6 +28,11 @@ public class ConnectionPool {
             connectionProps.put("password", "");
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/log", connectionProps);
         }
+        connection.setAutoCommit(false);
         return connection;
+    }
+
+    public static void cleanTable(String tableName) throws SQLException {
+        getConnection().prepareStatement("truncate table " + tableName).executeUpdate();
     }
 }

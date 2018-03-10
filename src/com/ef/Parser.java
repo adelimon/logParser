@@ -3,9 +3,7 @@ package com.ef;
 import com.ef.database.ConnectionPool;
 import com.ef.database.LogQuery;
 import com.ef.exception.ParsingException;
-import com.ef.parserobjects.CommandLineArguments;
-import com.ef.parserobjects.LogFileLine;
-import com.ef.parserobjects.LogFileLineCollection;
+import com.ef.parserobjects.*;
 
 
 import java.io.IOException;
@@ -45,11 +43,15 @@ public class Parser {
             printProgress(query.toSelectQueryString());
 
             // now run the query, get the results and save them to the DB
+            BlockedIpCollection blockedIpCollection = new BlockedIpCollection();
+
             Connection connection = ConnectionPool.getConnection();
             PreparedStatement selectQuery = connection.prepareStatement(query.toSelectQueryString());
             ResultSet rs = selectQuery.executeQuery(query.toSelectQueryString());
             while (rs.next()) {
-                System.out.println(rs.getString("ip_address"));
+                String ipAddress = rs.getString("ip_address");
+                int count = rs.getInt("num_requests");
+                blockedIpCollection.add(ipAddress, count, commandLineArguments.getThreshold());
             }
         } catch (ParsingException ex) {
             System.err.println("An error has occurred, error message is " + ex.getMessage());
