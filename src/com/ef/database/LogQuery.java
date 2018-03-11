@@ -1,10 +1,11 @@
 package com.ef.database;
 
-import java.sql.PreparedStatement;
 import java.time.LocalDateTime;
 
 /**
  * A query ran against the log table.
+ *
+ * @author adelimon
  */
 public class LogQuery {
 
@@ -36,7 +37,14 @@ public class LogQuery {
             "order by num_requests desc";
 
     private String runnableQuery;
-    
+
+    /**
+     * A query to run against the log table.
+     *
+     * @param startDate when the query should start.
+     * @param duration the duration (hourly or daily, anything else is an exception).
+     * @param threshold how many messages to look for.  Should be a positive number.
+     */
     public LogQuery(LocalDateTime startDate, String duration, int threshold) {
         switch (duration.toLowerCase()) {
             case DURATION_HOURLY:
@@ -45,9 +53,15 @@ public class LogQuery {
             case DURATION_DAILY:
                 buildRunnableQuery(DAILY_QUERY, startDate, threshold);
                 break;
+            default:
+                throw new IllegalArgumentException("value must be daily or hourly");
         }
     }
 
+    /**
+     * Get this object as a select query string.
+     * @return select query string representation.
+     */
     public String toSelectQueryString() {
         return runnableQuery;
     }

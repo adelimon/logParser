@@ -34,7 +34,7 @@ public class CommandLineArguments {
             // error here
             // TODo: do this properly
             ParsingException ex = new ParsingException(
-                    String.format("There should be {0} arguments, {1} were passed in", minimumLength, argsFromCommandLine.length)
+                    String.format("There should be %d arguments, %d were passed in", minimumLength, argsFromCommandLine.length)
             );
             throw ex;
         }
@@ -47,7 +47,7 @@ public class CommandLineArguments {
             if (argSplit.length != 2) {
                 // error here
                 ParsingException ex = new ParsingException(
-                        String.format("Arguments should be in the format a=b, {0} was passed in.", commandLineArg)
+                        String.format("Arguments should be in the format a=b, %s was passed in.", commandLineArg)
                 );
 
                 throw ex;
