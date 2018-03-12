@@ -7,7 +7,9 @@ creation script is in its own file.
 * I use a basic JDBC implementation here.  I was unclear if external libraries were allowed, so I did not use one
 such as Hibernate or JPA.  Normally I would use one of those but for a simple problem I chose a simple implementation.
 
-* The DB connection properties are in a properties file.  Normally this would be in the app server config or in a YAML file.
+* The DB connection properties are inlined in the main class.  Normally this would be in the app server config or in 
+a YAML file. Because of this if you use a different DB you'll need to change that over.   I did this this way as I chose
+to focus on solving the problem rather than plumbing and also wasn't sure if I could use external libraries.
 
 * My DB properties use a local instance that I have installed.  I have this machine blocking any incoming connections on 3306 so hence no password on the DB.
 

@@ -36,7 +36,10 @@ public class Parser {
 
     public static void initDatabase() throws ClassNotFoundException, IOException {
         Properties dbConnectionProperties = new Properties();
-        dbConnectionProperties.load(new FileInputStream("application.properties"));
+        dbConnectionProperties.put("database.driver", "com.mysql.jdbc.Driver");
+        dbConnectionProperties.put("database.url","jdbc:mysql://localhost:3306/log");
+        dbConnectionProperties.put("database.user", "root");
+        dbConnectionProperties.put("database.password", "");
         ConnectionPool.init(dbConnectionProperties);
     }
 
